@@ -67,4 +67,10 @@ class LateDeductController
         App::get('database')->insert('late_history', $form_data);
         redirect('late/entry');
     }
+
+    public function delete($id)
+    {
+        App::get('database')->delete('late_history', "id = '$id'");
+        redirect('late/entry', "success delete.");
+    }
 }

@@ -49,7 +49,7 @@ require __DIR__ . '/../layouts/head.php'; ?>
                                 <td><?= $late->date_created ?></td>
                                 <td><?= $late->amount ?></td>
                                 <td><?= $balance += $late->amount ?></td>
-                                <td><a href="<?= route('project/delete', $late->id) ?>" style="color: red;"><i class="far fa-trash-alt"></i></a></td>
+                                <td><a href="<?= route('late/delete', $late->id) ?>" style="color: red;"><i class="far fa-trash-alt"></i></a></td>
                             </tr>
                         <?php endforeach ?>
 
