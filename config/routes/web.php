@@ -7,9 +7,7 @@ require __DIR__ . '/migration.php';
 $router->get('', 'WelcomeController@home');
 $router->get('home', 'WelcomeController@home');
 
-$router->get('project', 'ProjectController@index');
-$router->get('project/detail/{id}', 'ProjectController@detail');
-$router->post('project/detail/{id}', 'ProjectController@updateDetail');
-$router->get('project/add', 'ProjectController@add');
-$router->post('project/add', 'ProjectController@store');
-$router->get('project/delete/{id}', 'ProjectController@delete');
+$router->get('late/deduction', 'LateDeductController@index');
+$router->post('late/deduction', 'LateDeductController@store');
+$router->get('late/entry', 'LateDeductController@entry');
+$router->post('late/entry', 'LateDeductController@newLate');
