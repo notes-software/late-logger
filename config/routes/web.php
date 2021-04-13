@@ -7,16 +7,16 @@ require __DIR__ . '/migration.php';
 $router->get('', 'WelcomeController@home');
 $router->get('home', 'WelcomeController@home');
 
-$router->get('late/deduction', 'LateDeductController@index');
-$router->post('late/deduction', 'LateDeductController@store');
-$router->get('late/entry', 'LateDeductController@entry');
-$router->post('late/entry', 'LateDeductController@newLate');
-$router->get('late/delete/{id}', 'LateDeductController@delete');
+$router->get('deduction', 'LateDeductController@index');
+$router->post('deduction', 'LateDeductController@store');
+$router->get('entry', 'LateDeductController@entry');
+$router->post('entry', 'LateDeductController@newLate');
+$router->get('delete/{id}', 'LateDeductController@delete');
 
-$router->get('late/payment', 'LateDeductController@payment');
-$router->post('late/payment', 'LateDeductController@storePayment');
-$router->get('late/payment/delete/{id}', 'LateDeductController@deletePayment');
-$router->get('late/history', 'LateDeductController@history');
-$router->get('late/summary', 'LateDeductController@summary');
+$router->get('payment', 'LateDeductController@payment');
+$router->post('payment', 'LateDeductController@storePayment');
+$router->get('payment/delete/{id}', 'LateDeductController@deletePayment');
+$router->get('history', 'LateDeductController@history');
+$router->get('summary', 'LateDeductController@summary');
 
 $router->get('payment/history', 'LateDeductController@paymentHistory');

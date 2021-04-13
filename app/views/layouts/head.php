@@ -103,26 +103,26 @@ use App\Core\Auth;
 						if (Auth::user('role_id') == 1) {
 						?>
 							<li class="nav-item">
-								<a class="nav-link" href="<?= route('late/deduction') ?>">
+								<a class="nav-link" href="<?= route('deduction') ?>">
 									<i class="fas fa-calculator text-red"></i>
 									<span class="nav-link-text">Late Deduction</span>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="<?= route('late/entry') ?>">
+								<a class="nav-link" href="<?= route('entry') ?>">
 									<i class="fas fa-clock text-orange"></i>
 									<span class="nav-link-text">Late Entry</span>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="<?= route('late/payment') ?>">
+								<a class="nav-link" href="<?= route('payment') ?>">
 									<i class="fas fa-file-invoice-dollar text-green"></i>
 									<span class="nav-link-text">Payment</span>
 								</a>
 							</li>
 						<?php  } ?>
 						<li class="nav-item">
-							<a class="nav-link" href="<?= route('late/history') ?>">
+							<a class="nav-link" href="<?= route('history') ?>">
 								<i class="fas fa-list-ol text-orange"></i>
 								<span class="nav-link-text">Late history</span>
 							</a>
@@ -134,7 +134,7 @@ use App\Core\Auth;
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="<?= route('late/summary') ?>">
+							<a class="nav-link" href="<?= route('summary') ?>">
 								<i class="fas fa-receipt text-orange"></i>
 								<span class="nav-link-text">Late Summary</span>
 							</a>

@@ -37,7 +37,7 @@ class LateDeductController
             App::get('database')->insert('late_deduction', $form_data);
         }
 
-        redirect('late/deduction', "Saved successfully.");
+        redirect('deduction', "Saved successfully.");
     }
 
     public function entry()
@@ -65,13 +65,13 @@ class LateDeductController
         ];
 
         App::get('database')->insert('late_history', $form_data);
-        redirect('late/entry');
+        redirect('entry');
     }
 
     public function delete($id)
     {
         App::get('database')->delete('late_history', "id = '$id'");
-        redirect('late/entry', "success delete.");
+        redirect('entry', "success delete.");
     }
 
     public function payment()
@@ -96,13 +96,13 @@ class LateDeductController
         ];
 
         App::get('database')->insert('payment', $form_data);
-        redirect('late/payment');
+        redirect('payment');
     }
 
     public function deletePayment($id)
     {
         App::get('database')->delete('payment', "id = '$id'");
-        redirect('late/payment', "success delete.");
+        redirect('payment', "success delete.");
     }
 
     public function summary()

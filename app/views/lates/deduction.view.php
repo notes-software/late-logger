@@ -11,7 +11,7 @@ require __DIR__ . '/../layouts/head.php'; ?>
                 <?= msg('VALIDATION_ERROR'); ?>
                 <?= msg('ALERT_MSG', "success"); ?>
 
-                <form method="POST" action="<?= route('late/deduction') ?>">
+                <form method="POST" action="<?= route('deduction') ?>">
                     <div class="form-group">
                         <label for="username">Amount to deduct</label>
                         <input type="text" class="form-control" name="deduct-amount" autocomplete="off" value="<?= number_format($deduct_data['amount'], 2) ?>">
