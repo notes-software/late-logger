@@ -121,7 +121,18 @@ use App\Core\Auth;
 								</a>
 							</li>
 						<?php  } ?>
-
+						<li class="nav-item">
+							<a class="nav-link" href="<?= route('late/history') ?>">
+								<i class="fas fa-list-ol text-orange"></i>
+								<span class="nav-link-text">Late history</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<?= route('payment/history') ?>">
+								<i class="fas fa-search-dollar text-green"></i>
+								<span class="nav-link-text">Payment History</span>
+							</a>
+						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="<?= route('late/summary') ?>">
 								<i class="fas fa-receipt text-orange"></i>

@@ -4,26 +4,6 @@ use App\Core\Auth;
 
 require __DIR__ . '/../layouts/head.php'; ?>
 
-<div class="row mb-0">
-    <div class="col-md-12">
-        <form method="POST" action="<?= route('late/entry') ?>">
-            <div style="display: flex;flex-direction: row;align-items: flex-end;">
-                <div class="form-group mb-0">
-                    <label for="username">Select User</label>
-                    <select name="late_user" class="form-control" style="width: 400px;">
-                        <?php
-                        foreach ($users_data as $userList) :
-                        ?>
-                            <option value="<?= $userList->id ?>"><?= $userList->fullname ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="d-flex justify-content-end ml-2"><button type="submit" class="btn btn-default btn-md text-rigth">ADD NEW LATE</button></div>
-            </div>
-        </form>
-    </div>
-</div>
-
 <div class="row pb-3 mt-0">
     <div class="col">
         <?= msg('ALERT_MSG', "success"); ?>
@@ -36,7 +16,6 @@ require __DIR__ . '/../layouts/head.php'; ?>
                             <th scope="col" class="sort" data-sort="name">NAME</th>
                             <th scope="col" class="sort" data-sort="budget">DATE</th>
                             <th scope="col" class="sort" data-sort="status">AMOUNT</th>
-                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody class="list">
@@ -47,7 +26,6 @@ require __DIR__ . '/../layouts/head.php'; ?>
                                 <td><?= getUserName($late->user_id) ?></td>
                                 <td><?= $late->date_created ?></td>
                                 <td><?= $late->amount ?></td>
-                                <td><a href="<?= route('late/delete', $late->id) ?>" style="color: red;"><i class="far fa-trash-alt"></i></a></td>
                             </tr>
                         <?php endforeach ?>
 

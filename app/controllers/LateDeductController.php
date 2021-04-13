@@ -73,4 +73,76 @@ class LateDeductController
         App::get('database')->delete('late_history', "id = '$id'");
         redirect('late/entry', "success delete.");
     }
+
+    public function payment()
+    {
+        $pageTitle = "Late Payment";
+        $users_data = App::get('database')->selectLoop('*', 'users');
+        $payment_datas = App::get('database')->selectLoop('*', 'payment', 'id > 0 ORDER BY id DESC');
+        return view('lates/payment', compact('payment_datas', 'users_data', 'pageTitle'));
+    }
+
+    public function storePayment()
+    {
+        $request = Request::validate('late/payment', [
+            'pay_user' => 'required',
+            'pay_amount' => 'required'
+        ]);
+
+        $form_data = [
+            "user_id" => $request['pay_user'],
+            "amount" => $request['pay_amount'],
+            "date_created" => date("Y-m-d H:i:s")
+        ];
+
+        App::get('database')->insert('payment', $form_data);
+        redirect('late/payment');
+    }
+
+    public function deletePayment($id)
+    {
+        App::get('database')->delete('payment', "id = '$id'");
+        redirect('late/payment', "success delete.");
+    }
+
+    public function summary()
+    {
+        $pageTitle = "Late Summary";
+        $users_data = App::get('database')->selectLoop('*', 'users');
+
+        $balance = [];
+        foreach ($users_data as $users) {
+            $late_data = App::get('database')->select('SUM(amount) AS late', 'late_history', "user_id = '$users->id'");
+            $payment_data = App::get('database')->select('SUM(amount) AS pay', 'payment', "user_id = '$users->id'");
+
+            $bal = $late_data['late'] - $payment_data['pay'];
+            $balance[] = $bal;
+            $summary[] = [
+                "name" => $users->fullname,
+                "total_late" => $late_data['late'],
+                "total_pay" => $payment_data['pay'],
+                "balance" => $bal
+            ];
+        }
+
+        return view('lates/summary', compact('summary', 'users_data', 'pageTitle'));
+    }
+
+    public function paymentHistory()
+    {
+        $pageTitle = "Payment History";
+        $logged_id = Auth::user('id');
+
+        $pay_datas = App::get('database')->selectLoop('*', 'payment', "user_id = '$logged_id' ORDER BY id DESC");
+        return view('lates/payment-detail', compact('pay_datas', 'pageTitle'));
+    }
+
+    public function history()
+    {
+        $pageTitle = "Late History";
+        $logged_id = Auth::user('id');
+
+        $late_datas = App::get('database')->selectLoop('*', 'late_history', "user_id = '$logged_id' ORDER BY id DESC");
+        return view('lates/history', compact('late_datas', 'pageTitle'));
+    }
 }

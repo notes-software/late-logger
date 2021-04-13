@@ -3,14 +3,14 @@
 use App\Core\Auth;
 
 require __DIR__ . '/../layouts/head.php'; ?>
-
+<?= msg('VALIDATION_ERROR'); ?>
 <div class="row mb-0">
     <div class="col-md-12">
-        <form method="POST" action="<?= route('late/entry') ?>">
+        <form method="POST" action="<?= route('late/payment') ?>">
             <div style="display: flex;flex-direction: row;align-items: flex-end;">
                 <div class="form-group mb-0">
                     <label for="username">Select User</label>
-                    <select name="late_user" class="form-control" style="width: 400px;">
+                    <select name="pay_user" class="form-control" style="width: 400px;">
                         <?php
                         foreach ($users_data as $userList) :
                         ?>
@@ -18,7 +18,11 @@ require __DIR__ . '/../layouts/head.php'; ?>
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="d-flex justify-content-end ml-2"><button type="submit" class="btn btn-default btn-md text-rigth">ADD NEW LATE</button></div>
+                <div class="form-group mb-0 ml-2">
+                    <label for="pay_amount">Amount</label>
+                    <input type="number" class="form-control" name="pay_amount" id="pay_amount" min="0">
+                </div>
+                <div class="d-flex justify-content-end ml-2"><button type="submit" class="btn btn-default btn-md text-rigth">ADD PAYMENT</button></div>
             </div>
         </form>
     </div>
@@ -42,12 +46,12 @@ require __DIR__ . '/../layouts/head.php'; ?>
                     <tbody class="list">
 
                         <?php
-                        foreach ($late_datas as $late) : ?>
+                        foreach ($payment_datas as $pay) : ?>
                             <tr>
-                                <td><?= getUserName($late->user_id) ?></td>
-                                <td><?= $late->date_created ?></td>
-                                <td><?= $late->amount ?></td>
-                                <td><a href="<?= route('late/delete', $late->id) ?>" style="color: red;"><i class="far fa-trash-alt"></i></a></td>
+                                <td><?= getUserName($pay->user_id) ?></td>
+                                <td><?= $pay->date_created ?></td>
+                                <td><?= $pay->amount ?></td>
+                                <td><a href="<?= route('late/payment/delete', $pay->id) ?>" style="color: red;"><i class="far fa-trash-alt"></i></a></td>
                             </tr>
                         <?php endforeach ?>
 
