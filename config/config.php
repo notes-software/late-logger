@@ -12,8 +12,11 @@ return [
 	],
 
 	'app' => [
-		'base_url' => 'late-logger',
-		'name' => 'Late-logger',
+		'base_url' => 'late',
+		'name' => 'Late Logger',
+
+		// choices: development, production
+		'environment' => 'development',
 
 		// choices to encode: windows, macOS, linux
 		'OS' => 'macOS',
