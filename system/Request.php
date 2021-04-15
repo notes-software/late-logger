@@ -44,7 +44,7 @@ class Request
 		}
 
 		if (!empty($errorList)) {
-			$_SESSION["VALIDATION_ERROR"] = $errorList;
+			$_SESSION["RESPONSE_MSG"] = [$errorList, "danger"];
 			redirect($uri);
 			exit();
 		}
@@ -69,6 +69,7 @@ class Request
 				'login',
 				'register',
 				'welcome',
+				'forgot/password',
 				'migration',
 				'migrate-run'
 			]

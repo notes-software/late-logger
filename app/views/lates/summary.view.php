@@ -3,11 +3,10 @@
 use App\Core\Auth;
 
 require __DIR__ . '/../layouts/head.php'; ?>
-<?= msg('VALIDATION_ERROR'); ?>
+<?= msg('RESPONSE_MSG'); ?>
 
 <div class="row pb-3 mt-0">
     <div class="col">
-        <?= msg('ALERT_MSG', "success"); ?>
         <div class="card">
             <!-- Light table -->
             <div class="table-responsive">

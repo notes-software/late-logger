@@ -87,7 +87,7 @@ class LateDeductController
         }
 
         App::get('database')->delete('late_history', "id = '$id'");
-        redirect('entry', "success delete.");
+        redirect('entry', ["success delete.", "success"]);
     }
 
     public function payment()
@@ -130,7 +130,7 @@ class LateDeductController
         }
 
         App::get('database')->delete('payment', "id = '$id'");
-        redirect('payment', "success delete.");
+        redirect('payment', ["success delete.", "success"]);
     }
 
     public function summary()

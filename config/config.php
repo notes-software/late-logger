@@ -12,7 +12,7 @@ return [
 	],
 
 	'app' => [
-		'base_url' => 'late/',
+		'base_url' => 'late-logger/',
 		'name' => 'Late Logger',
 
 		// choices: development, production

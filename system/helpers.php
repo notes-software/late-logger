@@ -14,7 +14,28 @@ function view($name, $data = [])
 {
     extract($data);
 
+    if (!file_exists("app/views/{$name}.view.php")) {
+        throwExeption("View [{$name}] not found", new Exception());
+    }
+
     return require "app/views/{$name}.view.php";
+}
+
+/**
+ * Require a package view.
+ *
+ * @param  string $path
+ * @param  array  $data
+ */
+function packageView($path, $data = [])
+{
+    extract($data);
+
+    if (!file_exists("system/{$path}.view.php")) {
+        throwExeption("A package view [{$path}] not found", new Exception());
+    }
+
+    return require "system/{$path}.view.php";
 }
 
 /**
@@ -22,10 +43,13 @@ function view($name, $data = [])
  *
  * @param  string $path
  */
-function redirect($path, $message = "")
+function redirect($path, $message = [])
 {
     $path = App::get('base_url') . $path;
-    $_SESSION["ALERT_MSG"] = $message;
+    if (!empty($message)) {
+        $_SESSION["RESPONSE_MSG"] = $message;
+    }
+
     header("Location: {$path}");
 }
 
@@ -75,10 +99,10 @@ function sanitizeString($data)
  * @param string $errorSession
  * @param string $type
  */
-function msg($errorSession, $type = "danger")
+function msg($errorSession)
 {
     if (!empty($_SESSION[$errorSession])) {
-        $msg = "<div class='alert alert-" . $type . "' role='alert' style='border-left-width: 4px;'>" . $_SESSION[$errorSession] . "</div>";
+        $msg = "<div class='alert alert-" . $_SESSION[$errorSession][1] . "' role='alert' style='border-left-width: 4px;'>" . $_SESSION[$errorSession][0] . "</div>";
 
         unset($_SESSION[$errorSession]);
     } else {
@@ -103,6 +127,15 @@ function randChar($length = 6)
         $str .= $characters[$rand];
     }
     return $str;
+}
+
+/**
+ * This will throw a exeption
+ */
+function throwExeption($message, $exeption = '')
+{
+    packageView('Exceptions/exception', compact('message', 'exeption'));
+    exit();
 }
 
 

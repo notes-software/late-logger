@@ -66,9 +66,8 @@ class Router
 		}
 
 		if (array_key_exists($uri, $this->routes[$requestType])) {
-			return $this->callAction(
-				...explode('@', $this->routes[$requestType][$uri])
-			);
+			$splat  = explode('@', $this->routes[$requestType][$uri]);
+			return $this->callAction($splat[0], $splat[1]);
 		} else {
 			foreach ($this->routes[$requestType] as $key => $val) {
 				$pattern = preg_replace('#\(/\)#', '/?', $key);
@@ -83,7 +82,7 @@ class Router
 			}
 		}
 
-		throw new Exception('No route defined for this URI');
+		throwExeption("No route defined for [{$uri}]", new Exception());
 	}
 
 	/**
@@ -94,14 +93,16 @@ class Router
 	 */
 	protected function callAction($controller, $action, $paramerters = [])
 	{
+		if (class_exists($controller)) {
+			throwExeption("Controller [{$controller}] already exist.", new Exception());
+		}
+
 		$useController = "App\\Controllers\\{$controller}";
 		$controllerClass = new $useController;
 
 		if (!method_exists($controllerClass, $action)) {
 
-			throw new Exception(
-				"{$controller} does not respond to the {$action} action."
-			);
+			throwExeption("{$controller} does not respond to the [{$action}] action.", new Exception());
 		}
 
 		return $controllerClass->$action($paramerters[0]);

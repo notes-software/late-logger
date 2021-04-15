@@ -7,7 +7,7 @@ require __DIR__ . '/../layouts/head.php'; ?>
 
 <div class="row pb-3 mt-0">
     <div class="col">
-        <?= msg('ALERT_MSG', "success"); ?>
+        <?= msg('RESPONSE_MSG'); ?>
         <div class="card">
             <!-- Light table -->
             <div class="table-responsive">

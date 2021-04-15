@@ -3,7 +3,7 @@
 use App\Core\Auth;
 
 require __DIR__ . '/../layouts/head.php'; ?>
-<?= msg('VALIDATION_ERROR'); ?>
+<?= msg('RESPONSE_MSG'); ?>
 <div class="row mb-0">
     <div class="col-md-12">
         <form method="POST" action="<?= route('payment') ?>">
@@ -30,7 +30,6 @@ require __DIR__ . '/../layouts/head.php'; ?>
 
 <div class="row pb-3 mt-0">
     <div class="col">
-        <?= msg('ALERT_MSG', "success"); ?>
         <div class="card">
             <!-- Light table -->
             <div class="table-responsive">
