@@ -57,16 +57,13 @@ class Router
 	 * @param string $uri
 	 * @param string $requestType
 	 */
-	public function direct($uri, $requestType, $skipAuth = [])
+	public function direct($uri, $requestType)
 	{
-		if (!empty($skipAuth)) {
-			if (!Auth::isAuthorized($uri, $skipAuth)) {
-				redirect('login');
-			}
-		}
-
 		if (array_key_exists($uri, $this->routes[$requestType])) {
-			$splat  = explode('@', $this->routes[$requestType][$uri]);
+
+			Auth::routeGuardian($this->routes[$requestType][$uri][1]);
+
+			$splat  = explode('@', $this->routes[$requestType][$uri][0]);
 			return $this->callAction($splat[0], $splat[1]);
 		} else {
 			foreach ($this->routes[$requestType] as $key => $val) {
@@ -76,13 +73,16 @@ class Router
 				array_shift($matches);
 
 				if ($matches) {
-					$getAction = explode('@', $val);
+
+					Auth::routeGuardian($val[1]);
+
+					$getAction = explode('@', $val[0]);
 					return $this->callAction($getAction[0], $getAction[1], $matches);
 				}
 			}
 		}
 
-		throwExeption("No route defined for [{$uri}]", new Exception());
+		throwException("No route defined for [{$uri}]", new Exception());
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Router
 	protected function callAction($controller, $action, $paramerters = [])
 	{
 		if (class_exists($controller)) {
-			throwExeption("Controller [{$controller}] already exist.", new Exception());
+			throwException("Controller [{$controller}] already exist.", new Exception());
 		}
 
 		$useController = "App\\Controllers\\{$controller}";
@@ -102,7 +102,7 @@ class Router
 
 		if (!method_exists($controllerClass, $action)) {
 
-			throwExeption("{$controller} does not respond to the [{$action}] action.", new Exception());
+			throwException("{$controller} does not respond to the [{$action}] action.", new Exception());
 		}
 
 		return $controllerClass->$action($paramerters[0]);

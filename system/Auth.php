@@ -5,22 +5,6 @@ namespace App\Core;
 class Auth
 {
     /**
-     * This will check if the uri
-     * is authorized and can be displayed to user
-     * 
-     * @param string $uri
-     * @param array $skippedUri
-     */
-    public static function isAuthorized($uri, $skippedUri)
-    {
-        if (in_array($uri, $skippedUri)) {
-            return 1;
-        }
-
-        return static::isAuthenticated();
-    }
-
-    /**
      * This will check if authenticated
      * 
      */
@@ -37,9 +21,8 @@ class Auth
     public static function authenticate($datas)
     {
         if (!$datas) {
-            $_SESSION["VALIDATION_ERROR"] = "User not found.";
+            $_SESSION["RESPONSE_MSG"] = "User not found.";
             redirect('login');
-            exit();
         }
 
         $users = [];
@@ -59,5 +42,20 @@ class Auth
     public static function user($record)
     {
         return $_SESSION['AUTH'][$record];
+    }
+
+    /**
+     * This will protect the routes if not authenticated
+     * 
+     */
+    public static function routeGuardian($middleware)
+    {
+        if (!empty($middleware)) {
+            if ($middleware == 'auth') {
+                if (!static::isAuthenticated()) {
+                    redirect('login');
+                }
+            }
+        }
     }
 }

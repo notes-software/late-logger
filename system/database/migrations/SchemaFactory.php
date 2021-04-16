@@ -170,7 +170,6 @@ class SchemaFactory
 		$tables_arr = [];
 		$database = $this->database;
 		$loop_all_table = App::get('database')->selectLoop("TABLE_NAME", "INFORMATION_SCHEMA.TABLES", "TABLE_SCHEMA = '$database' AND TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME ASC");
-
 		if (count($loop_all_table) > 0) {
 			foreach ($loop_all_table as $tbl) {
 				$tables_arr[] = $tbl->TABLE_NAME;

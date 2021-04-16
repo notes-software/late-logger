@@ -3,6 +3,9 @@
 session_start();
 
 use App\Core\App;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 /**
  * Require a view.
@@ -15,7 +18,7 @@ function view($name, $data = [])
     extract($data);
 
     if (!file_exists("app/views/{$name}.view.php")) {
-        throwExeption("View [{$name}] not found", new Exception());
+        throwException("View [{$name}] not found", new Exception());
     }
 
     return require "app/views/{$name}.view.php";
@@ -32,7 +35,7 @@ function packageView($path, $data = [])
     extract($data);
 
     if (!file_exists("system/{$path}.view.php")) {
-        throwExeption("A package view [{$path}] not found", new Exception());
+        throwException("A package view [{$path}] not found", new Exception());
     }
 
     return require "system/{$path}.view.php";
@@ -51,6 +54,7 @@ function redirect($path, $message = [])
     }
 
     header("Location: {$path}");
+    exit();
 }
 
 /**
@@ -93,6 +97,53 @@ function sanitizeString($data)
 }
 
 /**
+ * This will send an email to a specified email-address
+ * 
+ * @param mixed $subject
+ * @param mixed $body
+ * @param array $recipients
+ * @param string $redirect_route
+ */
+function sendMail($subject, $body, $recipients, $redirect_route)
+{
+    $mail = new PHPMailer(true);
+
+    try {
+        //Server settings
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $mail->isSMTP();
+        $mail->Host       = App::get('config')['app']['smtp_host'];
+        $mail->SMTPAuth   = true;
+        $mail->Username   = App::get('config')['app']['smtp_sender'];
+        $mail->Password   = App::get('config')['app']['smtp_password'];
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        //Recipients
+        $mail->setFrom('sprnva04@gmail.com', 'Sprnva');
+        $mail->addAddress($recipients);
+
+        //Content
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body = $body;
+        $mail->send();
+
+        $result_msg = [
+            "Message has been sent",
+            "success"
+        ];
+    } catch (Exception $e) {
+        $result_msg = [
+            "Message could not be sent. Mailer Error: {$mail->ErrorInfo}",
+            "danger"
+        ];
+    }
+
+    redirect($redirect_route, $result_msg);
+}
+
+/**
  * display session message then 
  * clear it instantly on refresh
  * 
@@ -132,7 +183,7 @@ function randChar($length = 6)
 /**
  * This will throw a exeption
  */
-function throwExeption($message, $exeption = '')
+function throwException($message, $exeption = '')
 {
     packageView('Exceptions/exception', compact('message', 'exeption'));
     exit();
