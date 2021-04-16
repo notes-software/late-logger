@@ -41,7 +41,7 @@ class LateDeductController
             App::get('database')->insert('late_deduction', $form_data);
         }
 
-        redirect('deduction', "Saved successfully.");
+        redirect('deduction', ["Saved successfully.", 'success']);
     }
 
     public function entry()
