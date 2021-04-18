@@ -19,9 +19,7 @@ class LateDeductController
 
     public function store()
     {
-        if (Auth::user('role_id') != 1) {
-            redirect('home');
-        }
+        Auth::userIsAuthorized();
 
         $request = Request::validate('late/deduction', [
             'deduct-amount' => 'required'
@@ -46,9 +44,7 @@ class LateDeductController
 
     public function entry()
     {
-        if (Auth::user('role_id') != 1) {
-            redirect('home');
-        }
+        Auth::userIsAuthorized();
 
         $pageTitle = "Late Entry";
 
@@ -59,9 +55,7 @@ class LateDeductController
 
     public function newLate()
     {
-        if (Auth::user('role_id') != 1) {
-            redirect('home');
-        }
+        Auth::userIsAuthorized();
 
         $deduction_amount = App::get('database')->select('amount', 'late_deduction', 'id > 0 ORDER BY id DESC LIMIT 1');
 
@@ -82,9 +76,7 @@ class LateDeductController
 
     public function delete($id)
     {
-        if (Auth::user('role_id') != 1) {
-            redirect('home');
-        }
+        Auth::userIsAuthorized();
 
         App::get('database')->delete('late_history', "id = '$id'");
         redirect('entry', ["success delete.", "success"]);
@@ -92,9 +84,7 @@ class LateDeductController
 
     public function payment()
     {
-        if (Auth::user('role_id') != 1) {
-            redirect('home');
-        }
+        Auth::userIsAuthorized();
 
         $pageTitle = "Late Payment";
         $users_data = App::get('database')->selectLoop('*', 'users');
@@ -104,9 +94,7 @@ class LateDeductController
 
     public function storePayment()
     {
-        if (Auth::user('role_id') != 1) {
-            redirect('home');
-        }
+        Auth::userIsAuthorized();
 
         $request = Request::validate('late/payment', [
             'pay_user' => 'required',
@@ -125,9 +113,7 @@ class LateDeductController
 
     public function deletePayment($id)
     {
-        if (Auth::user('role_id') != 1) {
-            redirect('home');
-        }
+        Auth::userIsAuthorized();
 
         App::get('database')->delete('payment', "id = '$id'");
         redirect('payment', ["success delete.", "success"]);

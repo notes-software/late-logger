@@ -27,40 +27,25 @@ use App\Core\App;
 </head>
 
 <body>
-    <div class="container" style="margin-top: 3%;padding-bottom: 30px;">
+    <div class="container" style="margin-top: 3%;">
         <div class="row justify-content-md-center">
             <div class="col-md-5">
-                <div class="text-center mb-3">
-                    <h4>Register</h4>
-                </div>
                 <div class="card mt-4" style="background-color: #fff; border: 0px; border-radius: 8px; box-shadow: 0 4px 5px 0 rgba(0,0,0,0.2);">
                     <div class="card-body">
 
                         <?= msg('RESPONSE_MSG'); ?>
 
-                        <form method="POST" action="<?= route('register') ?>">
-                            <div class="form-group">
+                        <form method="POST" action="<?= route('forgot/password') ?>">
+                            <small class="text-muted">Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.</small>
+                            <div class="form-group mt-3">
                                 <label for="email">E-mail</label>
                                 <input type="email" class="form-control" name="email" autocomplete="off" autofocus>
                             </div>
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" name="name" autocomplete="off">
-                            </div>
-                            <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" class="form-control" name="username" autocomplete="off">
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" name="password" autocomplete="off">
-                            </div>
-
                             <div class="d-flex justify-content-end">
                                 <a href="<?= route('login'); ?>" style="font-size: 18px;">
-                                    <small id="emailHelp" class="form-text text-muted mb-1">Already registered?</small>
+                                    <small class="form-text text-muted mb-1">Back to login?</small>
                                 </a>
-                                <button type="submit" class="btn btn-secondary btn-sm text-rigth ml-2">REGISTER</button>
+                                <div class="d-flex justify-content-end ml-3"><button type="submit" class="btn btn-secondary btn-sm text-rigth">SEND PASSWORD RESET LINK</button></div>
                             </div>
                         </form>
                     </div>

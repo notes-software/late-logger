@@ -104,19 +104,26 @@ function sanitizeString($data)
  * @param array $recipients
  * @param string $redirect_route
  */
-function sendMail($subject, $body, $recipients, $redirect_route)
+function sendMail($subject, $body, $recipients)
 {
     $mail = new PHPMailer(true);
 
     try {
         //Server settings
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $mail->SMTPDebug = 0;
         $mail->isSMTP();
         $mail->Host       = App::get('config')['app']['smtp_host'];
         $mail->SMTPAuth   = true;
         $mail->Username   = App::get('config')['app']['smtp_sender'];
         $mail->Password   = App::get('config')['app']['smtp_password'];
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
         $mail->Port       = 587;
 
         //Recipients
@@ -140,7 +147,7 @@ function sendMail($subject, $body, $recipients, $redirect_route)
         ];
     }
 
-    redirect($redirect_route, $result_msg);
+    return $result_msg;
 }
 
 /**
@@ -188,6 +195,78 @@ function throwException($message, $exeption = '')
     packageView('Exceptions/exception', compact('message', 'exeption'));
     exit();
 }
+
+/**
+ * get the OS where the sprnva runs
+ * 
+ */
+function getOS()
+{
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    $os_platform  = "Unknown OS Platform";
+
+    $os_array     = array(
+        '/windows nt 10/i'      =>  'windows',
+        '/windows nt 6.3/i'     =>  'windows',
+        '/windows nt 6.2/i'     =>  'windows',
+        '/windows nt 6.1/i'     =>  'windows',
+        '/windows nt 6.0/i'     =>  'windows',
+        '/windows nt 5.2/i'     =>  'windows',
+        '/windows nt 5.1/i'     =>  'windows',
+        '/windows xp/i'         =>  'windows',
+        '/windows nt 5.0/i'     =>  'windows',
+        '/windows me/i'         =>  'windows',
+        '/win98/i'              =>  'windows',
+        '/win95/i'              =>  'windows',
+        '/win16/i'              =>  'windows',
+        '/macintosh|mac os x/i' =>  'macOS',
+        '/mac_powerpc/i'        =>  'macOS',
+        '/linux/i'              =>  'linux',
+        '/ubuntu/i'             =>  'linux'
+    );
+
+    foreach ($os_array as $regex => $value) {
+        if (preg_match($regex, $user_agent)) {
+            $os_platform = $value;
+        }
+    }
+
+    return $os_platform;
+}
+
+/**
+ * get the browser where sprnva runs
+ * 
+ */
+function getBrowser()
+{
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    global $user_agent;
+
+    $browser        = "Unknown Browser";
+
+    $browser_array = array(
+        '/msie/i'      => 'Internet Explorer',
+        '/firefox/i'   => 'Firefox',
+        '/safari/i'    => 'Safari',
+        '/chrome/i'    => 'Chrome',
+        '/edge/i'      => 'Edge',
+        '/opera/i'     => 'Opera',
+        '/netscape/i'  => 'Netscape',
+        '/maxthon/i'   => 'Maxthon',
+        '/konqueror/i' => 'Konqueror',
+        '/mobile/i'    => 'Handheld Browser'
+    );
+
+    foreach ($browser_array as $regex => $value) {
+        if (preg_match($regex, $user_agent)) {
+            $browser = $value;
+        }
+    }
+
+    return $browser;
+}
+
 
 
 // add additional helper functions from the users

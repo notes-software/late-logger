@@ -12,9 +12,7 @@ class AuthController
 
     public function index()
     {
-        if (Auth::isAuthenticated()) {
-            redirect('home');
-        }
+        Auth::isAuthenticated();
 
         $pageTitle = "Login";
         return view('auth/login', compact('pageTitle'));
@@ -27,22 +25,17 @@ class AuthController
             'password' => 'required'
         ]);
 
-        $userDdata = App::get('database')->select("*", "users", "username = '$request[username]' AND password = md5('$request[password]')");
-
-        Auth::authenticate($userDdata);
+        Auth::authenticate($request);
     }
 
     public function logout()
     {
-        session_destroy();
-        redirect('login');
+        Auth::logout();
     }
 
     public function forgotPassword()
     {
-        if (Auth::isAuthenticated()) {
-            redirect('home');
-        }
+        Auth::isAuthenticated();
 
         $pageTitle = "Forgot Password";
         return view('auth/forgot-password', compact('pageTitle'));
@@ -51,33 +44,25 @@ class AuthController
     public function sendResetLink()
     {
         $request = Request::validate('forgot/password', [
-            'reset-email' => 'required',
+            'email' => 'required',
         ]);
 
-        $isEmailExist = App::get('database')->select("email", "users", "email = '" . $request['reset-email'] . "'");
-
-        if (!$isEmailExist) {
-            redirect('forgot/password', ['E-mail not found in the server.', 'danger']);
-        } else {
-
-            $token = md5(randChar('10'));
-
-            $subject = "Sprnva password reset link";
-            $body = "<a href='localhost/sprnva/" . $token . "'>Reset password</a>";
-            sendMail($subject, $body, $request['reset-email'], 'forgot/password');
-
-            $insertData = [
-                'email' => $request['reset-email'],
-                'token' => $token,
-                'created_at' => date("Y-m-d H:i:s")
-            ];
-            App::get('database')->insert('password_resets', $insertData);
-        }
+        Request::passwordResetLink($request);
     }
 
-    public function resetPassword()
+    public function resetPassword($token)
     {
         $pageTitle = "Reset Password";
-        return view('auth/password-reset', compact('pageTitle'));
+        return view('auth/password-reset', compact('pageTitle', 'token'));
+    }
+
+    public function passwordStore()
+    {
+        $request = Request::validate('reset/password/' . $_POST['token'], [
+            'new_password' => 'required',
+            'confirm_password' => 'required'
+        ]);
+
+        Auth::resetPasswordWithToken($request);
     }
 }

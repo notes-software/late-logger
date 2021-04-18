@@ -34,7 +34,6 @@ use App\Core\App; ?>
                 <div class="card" style="background-color: #fff; border: 0px; border-radius: 8px; box-shadow: 0 4px 5px 0 rgba(0,0,0,0.2);">
                     <div class="card-body">
                         <h5 class="text-muted mb-4">Change Password</h5>
-
                         <?= msg('RESPONSE_MSG'); ?>
 
                         <form method="POST" action="<?= route('profile/changepass') ?>">
