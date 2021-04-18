@@ -12,11 +12,11 @@ $config = [
     'base_url' => 'sprnva/',
     'app_name' => 'SPRNVA',
 
+    // choices: windows, macOS, linux
+    'os' => 'macOS',
+
     // choices: development, production
     'environment' => 'development',
-
-    // choices to encode: windows, macOS, linux
-    'os' => 'macOS',
 
     // EMAIL
     'smtp_host' => '',

@@ -85,12 +85,13 @@ class Request
 			$values = [
 				App::get('config')['app']['name'],
 				$isEmailExist['fullname'],
-				"http://" . App::get('config')['database']['connection'] . "/" . App::get('config')['app']['base_url'] . "reset/password/" . $token,
+				$_SERVER['SERVER_NAME'] . "/" . App::get('config')['app']['base_url'] . "reset/password/" . $token,
 				date('Y')
 			];
 			$body_content = str_replace($app_name, $values, $emailTemplate);
 
 			$body = $body_content;
+
 			$isSent = sendMail($subject, $body, $request['email']);
 
 			if ($isSent[1] == "success") {
@@ -101,8 +102,9 @@ class Request
 					'created_at' => date("Y-m-d H:i:s")
 				];
 
-				$hasResetPending = App::get('database')->select("*", "password_resets", "email = '" . $request['email'] . "'");
-				if ($hasResetPending) {
+				$hasResetPending = App::get('database')->select("email", "password_resets", "email = '" . $request['email'] . "'");
+
+				if (!empty($hasResetPending['email'])) {
 					App::get('database')->update('password_resets', $insertData, "email = '" . $request['email'] . "'");
 				} else {
 					App::get('database')->insert('password_resets', $insertData);
