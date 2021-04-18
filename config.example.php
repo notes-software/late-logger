@@ -21,6 +21,7 @@ $config = [
     // EMAIL
     'smtp_host' => '',
     'smtp_sender' => '',
-    'smtp_password' => ''
+    'smtp_password' => '',
+    'smtp_port' => 25
 
 ];
