@@ -35,15 +35,16 @@ use App\Core\App;
 
                         <?= msg('RESPONSE_MSG'); ?>
 
-                        <form method="POST" action="<?= route('reset/password') ?>">
+                        <form method="POST" action="<?= route('/reset/password') ?>">
+                            <?= csrf() ?>
                             <input type="hidden" name="token" value="<?= $token ?>">
                             <small class="text-muted">You can now update your password.</small>
                             <div class="form-group mt-3">
-                                <label for="new_password">New password</label>
+                                <label for="reset-email">New password</label>
                                 <input type="password" class="form-control" name="new_password" autocomplete="off" autofocus>
                             </div>
                             <div class="form-group mt-3">
-                                <label for="confirm_password">Confirm password</label>
+                                <label for="reset-email">Confirm password</label>
                                 <input type="password" class="form-control" name="confirm_password" autocomplete="off" autofocus>
                             </div>
                             <div class="d-flex justify-content-end">

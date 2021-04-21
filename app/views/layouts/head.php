@@ -94,7 +94,7 @@ use App\Core\Auth;
 					<!-- Nav items -->
 					<ul class="navbar-nav">
 						<li class="nav-item">
-							<a class="nav-link" href="<?= route('home') ?>">
+							<a class="nav-link" href="<?= route('/home') ?>">
 								<i class="ni ni-tv-2 text-primary"></i>
 								<span class="nav-link-text">Dashboard</span>
 							</a>
@@ -103,38 +103,38 @@ use App\Core\Auth;
 						if (Auth::user('role_id') == 1) {
 						?>
 							<li class="nav-item">
-								<a class="nav-link" href="<?= route('deduction') ?>">
+								<a class="nav-link" href="<?= route('/deduction') ?>">
 									<i class="fas fa-calculator text-red"></i>
 									<span class="nav-link-text">Late Deduction</span>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="<?= route('entry') ?>">
+								<a class="nav-link" href="<?= route('/entry') ?>">
 									<i class="fas fa-clock text-orange"></i>
 									<span class="nav-link-text">Late Entry</span>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="<?= route('payment') ?>">
+								<a class="nav-link" href="<?= route('/payment') ?>">
 									<i class="fas fa-file-invoice-dollar text-green"></i>
 									<span class="nav-link-text">Payment</span>
 								</a>
 							</li>
 						<?php  } ?>
 						<li class="nav-item">
-							<a class="nav-link" href="<?= route('history') ?>">
+							<a class="nav-link" href="<?= route('/history') ?>">
 								<i class="fas fa-list-ol text-orange"></i>
 								<span class="nav-link-text">Late history</span>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="<?= route('payment/history') ?>">
+							<a class="nav-link" href="<?= route('/payment/history') ?>">
 								<i class="fas fa-search-dollar text-green"></i>
 								<span class="nav-link-text">Payment History</span>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="<?= route('summary') ?>">
+							<a class="nav-link" href="<?= route('/summary') ?>">
 								<i class="fas fa-receipt text-orange"></i>
 								<span class="nav-link-text">Late Summary</span>
 							</a>
@@ -178,15 +178,19 @@ use App\Core\Auth;
 								<div class="dropdown-header noti-title">
 									<h6 class="text-overflow m-0">Welcome!</h6>
 								</div>
-								<a href="<?= route('profile') ?>" class="dropdown-item">
+								<a href="<?= route('/profile') ?>" class="dropdown-item">
 									<i class="ni ni-single-02"></i>
 									<span>My profile</span>
 								</a>
 								<div class="dropdown-divider"></div>
-								<a href="<?= route('logout') ?>" class="dropdown-item">
+								<a class="dropdown-item" href="<?= route('/logout') ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 									<i class="ni ni-user-run"></i>
 									<span>Logout</span>
 								</a>
+
+								<form id="logout-form" action="<?= route('/logout') ?>" method="POST" style="display:none;">
+									<?= csrf() ?>
+								</form>
 							</div>
 						</li>
 					</ul>

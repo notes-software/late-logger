@@ -13,11 +13,11 @@ class Request
 	 */
 	public static function uri()
 	{
-		$base_uri = (App::get('base_url') != "/")
+		$base_uri = (App::get('base_url') != "")
 			? str_replace(App::get('base_url'), "", $_SERVER['REQUEST_URI'])
 			: $_SERVER['REQUEST_URI'];
 
-		return trim(parse_url($base_uri, PHP_URL_PATH),  '/');
+		return parse_url($base_uri, PHP_URL_PATH);
 	}
 
 	/**
@@ -34,8 +34,9 @@ class Request
 	 * Validates the POST method inputs
 	 * 
 	 */
-	public static function validate($uri, $datas = [])
+	public static function validate($uri = '', $datas = [])
 	{
+
 		foreach ($datas as $key => $data) {
 			if ($data == "required") {
 				if (empty($_POST[$key])) {
@@ -44,15 +45,42 @@ class Request
 			}
 		}
 
-		if (!empty($errorList)) {
-			redirect($uri, [implode('<br>', $errorList), "danger"]);
-		}
-
 		foreach ($_POST as $key => $value) {
 			$post_data[$key] = sanitizeString($value);
 		}
 
+		static::storeValidatedToSession($post_data);
+
+		if (!empty($errorList)) {
+			redirect($uri, [implode('<br>', $errorList), "danger"]);
+		}
+
+		if (isset($_POST['_token'])) {
+			static::verifyCsrfToken($_POST['_token']);
+		}
+
 		return $post_data;
+	}
+
+	/**
+	 * store validated request to session
+	 * 
+	 */
+	private static function storeValidatedToSession($validatedRequest)
+	{
+		static::invalidateOld();
+		$_SESSION['OLD'] = $validatedRequest;
+	}
+
+	/**
+	 * get the old input values
+	 * 
+	 */
+	public static function old($inputName)
+	{
+		return (!empty($inputName) && isset($_SESSION['OLD']) && array_key_exists($inputName, $_SESSION['OLD']))
+			? $_SESSION['OLD'][$inputName]
+			: '';
 	}
 
 	/**
@@ -73,7 +101,7 @@ class Request
 		$isEmailExist = App::get('database')->select("*", "users", "email = '" . $request['email'] . "'");
 
 		if (!$isEmailExist) {
-			redirect('forgot/password', ['E-mail not found in the server.', 'danger']);
+			redirect('/forgot/password', ['E-mail not found in the server.', 'danger']);
 		} else {
 
 			$token = Request::token(10);
@@ -111,7 +139,68 @@ class Request
 				}
 			}
 
-			redirect('forgot/password', $isSent);
+			redirect('/forgot/password', $isSent);
+		}
+	}
+
+	/**
+	 * generates a csrf token
+	 * 
+	 */
+	public static function csrf_token()
+	{
+		if (!isset($_SESSION["csrf_token"])) {
+			$_SESSION["csrf_token"] = md5(bin2hex(randChar(20)));
+		} else {
+			$token = $_SESSION["csrf_token"];
+		}
+
+		return $token;
+	}
+
+	/**
+	 * verifies csrf token
+	 * 
+	 */
+	public static function verifyCsrfToken($request)
+	{
+		if (!static::tokensMatch($request)) {
+			throwException('419 | Page expired.');
+		}
+	}
+
+	/**
+	 * match secret token vs users token
+	 * 
+	 */
+	public static function tokensMatch($request)
+	{
+		if (strlen($_SESSION["csrf_token"]) != strlen($request)) {
+			return false;
+		} else {
+			$res = $_SESSION["csrf_token"] ^ $request;
+			$ret = 0;
+			for ($i = strlen($res) - 1; $i >= 0; $i--) {
+				$ret |= ord($res[$i]);
+			}
+
+			return !$ret;
+		}
+	}
+
+	/**
+	 * renew the csrf token
+	 * 
+	 */
+	public static function renewCsrfToken()
+	{
+		$_SESSION["csrf_token"] = md5(bin2hex(randChar(20)));
+	}
+
+	public static function invalidateOld()
+	{
+		if (isset($_SESSION['OLD'])) {
+			unset($_SESSION['OLD']);
 		}
 	}
 }

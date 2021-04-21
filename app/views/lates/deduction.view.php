@@ -10,7 +10,7 @@ require __DIR__ . '/../layouts/head.php'; ?>
             <div class="card-body">
                 <?= msg('RESPONSE_MSG'); ?>
 
-                <form method="POST" action="<?= route('deduction') ?>">
+                <form method="POST" action="<?= route('/deduction') ?>">
                     <div class="form-group">
                         <label for="username">Amount to deduct</label>
                         <input type="text" class="form-control" name="deduct-amount" autocomplete="off" value="<?= number_format($deduct_data['amount'], 2) ?>">

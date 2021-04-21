@@ -3,9 +3,12 @@
 session_start();
 
 use App\Core\App;
+use App\Core\Request;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+
+Request::csrf_token();
 
 /**
  * Require a view.
@@ -64,7 +67,7 @@ function redirect($path, $message = [])
  */
 function public_url($uri = "")
 {
-    return App::get('base_url') . "public" . $uri;
+    return App::get('base_url') . "/public" . $uri;
 }
 
 /**
@@ -115,7 +118,7 @@ function sendMail($subject, $body, $recipients)
         $mail->Host       = App::get('config')['app']['smtp_host'];
         $mail->SMTPAuth   = App::get('config')['app']['smtp_auth'];
         $mail->SMTPAutoTLS = App::get('config')['app']['smtp_auto_tls'];
-        $mail->Username   = App::get('config')['app']['smtp_sender'];
+        $mail->Username   = App::get('config')['app']['smtp_username'];
         $mail->Password   = App::get('config')['app']['smtp_password'];
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->SMTPOptions = array(
@@ -268,7 +271,19 @@ function getBrowser()
     return $browser;
 }
 
+/**
+ * this will add a hidden input with csrf token
+ * 
+ */
+function csrf()
+{
+    return "<input type='hidden' name='_token' value='" . Request::csrf_token() . "'>";
+}
 
+function old($field)
+{
+    return Request::old($field);
+}
 
 // add additional helper functions from the users
 require __DIR__ . '/../config/function.helpers.php';

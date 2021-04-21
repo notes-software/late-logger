@@ -6,7 +6,7 @@ require __DIR__ . '/../layouts/head.php'; ?>
 <?= msg('RESPONSE_MSG'); ?>
 <div class="row mb-0">
     <div class="col-md-12">
-        <form method="POST" action="<?= route('payment') ?>">
+        <form method="POST" action="<?= route('/payment') ?>">
             <div style="display: flex;flex-direction: row;align-items: flex-end;">
                 <div class="form-group mb-0">
                     <label for="username">Select User</label>
@@ -50,7 +50,7 @@ require __DIR__ . '/../layouts/head.php'; ?>
                                 <td><?= getUserName($pay->user_id) ?></td>
                                 <td><?= $pay->date_created ?></td>
                                 <td><?= $pay->amount ?></td>
-                                <td><a href="<?= route('payment/delete', $pay->id) ?>" style="color: red;"><i class="far fa-trash-alt"></i></a></td>
+                                <td><a href="<?= route('/payment/delete', $pay->id) ?>" style="color: red;"><i class="far fa-trash-alt"></i></a></td>
                             </tr>
                         <?php endforeach ?>
 

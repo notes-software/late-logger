@@ -6,7 +6,7 @@ require __DIR__ . '/../layouts/head.php'; ?>
 
 <div class="row mb-0">
     <div class="col-md-12">
-        <form method="POST" action="<?= route('entry') ?>">
+        <form method="POST" action="<?= route('/entry') ?>">
             <div style="display: flex;flex-direction: row;align-items: flex-end;">
                 <div class="form-group mb-0">
                     <label for="username">Select User</label>
@@ -47,7 +47,7 @@ require __DIR__ . '/../layouts/head.php'; ?>
                                 <td><?= getUserName($late->user_id) ?></td>
                                 <td><?= $late->date_created ?></td>
                                 <td><?= $late->amount ?></td>
-                                <td><a href="<?= route('delete', $late->id) ?>" style="color: red;"><i class="far fa-trash-alt"></i></a></td>
+                                <td><a href="<?= route('/delete', $late->id) ?>" style="color: red;"><i class="far fa-trash-alt"></i></a></td>
                             </tr>
                         <?php endforeach ?>
 

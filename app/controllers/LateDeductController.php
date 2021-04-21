@@ -14,14 +14,14 @@ class LateDeductController
     {
         $pageTitle = "Late Deduction";
         $deduct_data = App::get('database')->select('amount', 'late_deduction');
-        return view('lates/deduction', compact('deduct_data', 'pageTitle'));
+        return view('/lates/deduction', compact('deduct_data', 'pageTitle'));
     }
 
     public function store()
     {
         Auth::userIsAuthorized();
 
-        $request = Request::validate('late/deduction', [
+        $request = Request::validate('/late/deduction', [
             'deduct-amount' => 'required'
         ]);
 
@@ -39,7 +39,7 @@ class LateDeductController
             App::get('database')->insert('late_deduction', $form_data);
         }
 
-        redirect('deduction', ["Saved successfully.", 'success']);
+        redirect('/deduction', ["Saved successfully.", 'success']);
     }
 
     public function entry()
@@ -50,7 +50,7 @@ class LateDeductController
 
         $users_data = App::get('database')->selectLoop('*', 'users');
         $late_datas = App::get('database')->selectLoop('*', 'late_history', 'id > 0 ORDER BY id ASC');
-        return view('lates/entry', compact('late_datas', 'users_data', 'pageTitle'));
+        return view('/lates/entry', compact('late_datas', 'users_data', 'pageTitle'));
     }
 
     public function newLate()
@@ -59,7 +59,7 @@ class LateDeductController
 
         $deduction_amount = App::get('database')->select('amount', 'late_deduction', 'id > 0 ORDER BY id DESC LIMIT 1');
 
-        $request = Request::validate('late/entry', [
+        $request = Request::validate('/late/entry', [
             'late_user' => 'required'
         ]);
 
@@ -71,7 +71,7 @@ class LateDeductController
         ];
 
         App::get('database')->insert('late_history', $form_data);
-        redirect('entry');
+        redirect('/entry');
     }
 
     public function delete($id)
@@ -79,7 +79,7 @@ class LateDeductController
         Auth::userIsAuthorized();
 
         App::get('database')->delete('late_history', "id = '$id'");
-        redirect('entry', ["success delete.", "success"]);
+        redirect('/entry', ["success delete.", "success"]);
     }
 
     public function payment()
@@ -89,14 +89,14 @@ class LateDeductController
         $pageTitle = "Late Payment";
         $users_data = App::get('database')->selectLoop('*', 'users');
         $payment_datas = App::get('database')->selectLoop('*', 'payment', 'id > 0 ORDER BY id DESC');
-        return view('lates/payment', compact('payment_datas', 'users_data', 'pageTitle'));
+        return view('/lates/payment', compact('payment_datas', 'users_data', 'pageTitle'));
     }
 
     public function storePayment()
     {
         Auth::userIsAuthorized();
 
-        $request = Request::validate('late/payment', [
+        $request = Request::validate('/late/payment', [
             'pay_user' => 'required',
             'pay_amount' => 'required'
         ]);
@@ -108,7 +108,7 @@ class LateDeductController
         ];
 
         App::get('database')->insert('payment', $form_data);
-        redirect('payment');
+        redirect('/payment');
     }
 
     public function deletePayment($id)
@@ -116,7 +116,7 @@ class LateDeductController
         Auth::userIsAuthorized();
 
         App::get('database')->delete('payment', "id = '$id'");
-        redirect('payment', ["success delete.", "success"]);
+        redirect('/payment', ["success delete.", "success"]);
     }
 
     public function summary()
@@ -139,7 +139,7 @@ class LateDeductController
             ];
         }
 
-        return view('lates/summary', compact('summary', 'users_data', 'pageTitle'));
+        return view('/lates/summary', compact('summary', 'users_data', 'pageTitle'));
     }
 
     public function paymentHistory()
@@ -148,7 +148,7 @@ class LateDeductController
         $logged_id = Auth::user('id');
 
         $pay_datas = App::get('database')->selectLoop('*', 'payment', "user_id = '$logged_id' ORDER BY id DESC");
-        return view('lates/payment-detail', compact('pay_datas', 'pageTitle'));
+        return view('/lates/payment-detail', compact('pay_datas', 'pageTitle'));
     }
 
     public function history()
@@ -157,6 +157,6 @@ class LateDeductController
         $logged_id = Auth::user('id');
 
         $late_datas = App::get('database')->selectLoop('*', 'late_history', "user_id = '$logged_id' ORDER BY id DESC");
-        return view('lates/history', compact('late_datas', 'pageTitle'));
+        return view('/lates/history', compact('late_datas', 'pageTitle'));
     }
 }
