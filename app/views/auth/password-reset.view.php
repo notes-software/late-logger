@@ -13,6 +13,7 @@ use App\Core\App;
         <?= ucfirst($pageTitle) . " | " . App::get('config')['app']['name']; ?>
     </title>
 
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,800,800i,900,900i" rel="stylesheet">
     <link rel="stylesheet" href="<?= public_url('/assets/sprnva/css/bootstrap.min.css') ?>">
 
     <style>

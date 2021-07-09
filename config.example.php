@@ -12,15 +12,16 @@ $config = [
     'base_url' => 'sprnva',
     'app_name' => 'SPRNVA',
 
-    // choices: windows, macOS, linux
-    'os' => 'macOS',
+    // for more flexible database migration please indicate 
+    // the path of mysql in your machine including the trailing backslash.
+    'mysql_path' => '',
 
     // choices: development, production
     'environment' => 'development',
 
     // EMAIL
     'smtp_host' => '',
-    'smtp_sender' => '',
+    'smtp_username' => '',
     'smtp_password' => '',
     'smtp_auth' => true,
     'smtp_auto_tls' => true,

@@ -23,7 +23,7 @@ require __DIR__ . '/../layouts/head.php'; ?>
                             <?php
                             foreach ($users_data as $userList) :
                             ?>
-                                <option value="<?= $userList->id ?>"><?= $userList->fullname ?></option>
+                                <option value="<?= $userList['id'] ?>"><?= $userList['fullname'] ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>

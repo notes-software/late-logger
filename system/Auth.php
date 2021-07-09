@@ -22,15 +22,18 @@ class Auth
      */
     public static function authenticate($request)
     {
-        $datas = App::get('database')->select("*", "users", "username = '$request[username]' AND password = md5('$request[password]')");
+        $datas = DB()->select("*", "users", "username = '$request[username]'")->get();
+        $passchecker = checkHash($request['password'], $datas['password']);
 
-        if (!$datas) {
+        if ($passchecker == "") {
             redirect('/login', ["User not found.", 'danger']);
         }
 
         $users = [];
         foreach ($datas as $key => $data) {
-            $users[$key] = $data;
+            if ($key != 'password') {
+                $users[$key] = $data;
+            }
         }
 
         $_SESSION["AUTH"] = $users;
@@ -56,7 +59,7 @@ class Auth
     public static function routeGuardian($middleware)
     {
         if (!empty($middleware)) {
-            if ($middleware == 'auth') {
+            if (in_array('auth', $middleware)) {
                 if (empty(static::user('id'))) {
                     redirect('/login');
                 }
@@ -88,14 +91,16 @@ class Auth
     public static function resetPassword($request)
     {
         $user_id = Auth::user('id');
+        $userCurrent = DB()->select('password', 'users', "id = '$user_id'")->get();
+        $passwordCheck = checkHash($request["old-password"], $userCurrent['password']);
 
-        if (md5($request["old-password"]) == Auth::user('password')) {
+        if ($passwordCheck) {
             if ($request["new-password"] == $request["confirm-password"]) {
                 $update_pass = [
-                    'password' => md5($request["new-password"]),
+                    'password' => bcrypt($request["new-password"]),
                     'updated_at' => date("Y-m-d H:i:s")
                 ];
-                App::get('database')->update('users', $update_pass, "id = '$user_id'");
+                DB()->update('users', $update_pass, "id = '$user_id'");
                 $response_message = ["Password has changed.", "success"];
             } else {
                 $response_message = ["Passwords must match.", "danger"];
@@ -114,20 +119,20 @@ class Auth
      */
     public static function resetPasswordWithToken($request)
     {
-        $isTokenLegit = App::get('database')->select("email", "password_resets", "token = '$request[token]'");
+        $isTokenLegit = DB()->select("email", "password_resets", "token = '$request[token]'")->get();
 
         if ($isTokenLegit) {
 
             if ($request["new_password"] == $request["confirm_password"]) {
 
                 $reset_password = [
-                    'password' => md5($request['new_password']),
+                    'password' => bcrypt($request['new_password']),
                     'updated_at' => date("Y-m-d H:i:s")
                 ];
 
-                App::get('database')->update("users", $reset_password, "email = '$isTokenLegit[email]'");
+                DB()->update("users", $reset_password, "email = '$isTokenLegit[email]'");
 
-                App::get('database')->delete("password_resets", "email = '$isTokenLegit[email]' AND token = '$request[token]'");
+                DB()->delete("password_resets", "email = '$isTokenLegit[email]' AND token = '$request[token]'");
 
                 redirect('/login', ["Success reset password", "success"]);
             } else {

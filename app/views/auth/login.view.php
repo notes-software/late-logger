@@ -13,6 +13,7 @@ use App\Core\App;
         <?= ucfirst($pageTitle) . " | " . App::get('config')['app']['name']; ?>
     </title>
 
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,800,800i,900,900i" rel="stylesheet">
     <link rel="stylesheet" href="<?= public_url('/assets/sprnva/css/bootstrap.min.css') ?>">
 
     <style>
@@ -58,7 +59,7 @@ use App\Core\App;
                             <?= csrf() ?>
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input type="text" class="form-control" name="username" autocomplete="off" autofocus>
+                                <input type="text" class="form-control" name="username" autocomplete="off" autofocus value="<?= old('username') ?>">
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
@@ -78,7 +79,7 @@ use App\Core\App;
 
         <div class="row justify-content-md-center">
             <div class="col-md-5">
-                <div class="card mt-4" style="background-color: #fff; border: 0px; border-radius: 8px; box-shadow: 0 4px 5px 0 rgba(0,0,0,0.2);">
+                <div class="card mt-2" style="background-color: #fff; border: 0px; border-radius: 8px; box-shadow: 0 4px 5px 0 rgba(0,0,0,0.2);">
                     <div class="card-body d-flex justify-content-center align-items-center">
 
                         <small id="emailHelp" class="form-text text-muted mb-1">We'll never share your email with anyone else.</small>

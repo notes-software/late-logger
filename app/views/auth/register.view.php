@@ -13,6 +13,8 @@ use App\Core\App;
         <?= ucfirst($pageTitle) . " | " . App::get('config')['app']['name']; ?>
     </title>
 
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,800,800i,900,900i" rel="stylesheet">
+    <link rel="stylesheet" href="<?= public_url('/assets/sprnva/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?= public_url('/assets/sprnva/css/bootstrap.min.css') ?>">
 
     <style>
@@ -42,15 +44,15 @@ use App\Core\App;
                             <?= csrf() ?>
                             <div class="form-group">
                                 <label for="email">E-mail</label>
-                                <input type="email" class="form-control" name="email" autocomplete="off" autofocus>
+                                <input type="email" class="form-control" name="email" autocomplete="off" value="<?= old('email') ?>" autofocus>
                             </div>
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" name="name" autocomplete="off">
+                                <input type="text" class="form-control" name="name" value="<?= old('name') ?>" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input type="text" class="form-control" name="username" autocomplete="off">
+                                <input type="text" class="form-control" name="username" value="<?= old('username') ?>" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>

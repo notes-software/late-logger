@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * --------------------------------------------------------------------------
+ * Routes
+ * --------------------------------------------------------------------------
+ * 
+ * Here is where you can register routes for your application.
+ * Now create something great!
+ * 
+ */
+
 // your routes goes here
 $router->get('/', ['WelcomeController@home', 'auth']);
 $router->get('/home', ['WelcomeController@home', 'auth']);

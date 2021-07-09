@@ -14,7 +14,7 @@ require __DIR__ . '/../layouts/head.php'; ?>
                         <?php
                         foreach ($users_data as $userList) :
                         ?>
-                            <option value="<?= $userList->id ?>"><?= $userList->fullname ?></option>
+                            <option value="<?= $userList['id'] ?>"><?= $userList['fullname'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -44,10 +44,10 @@ require __DIR__ . '/../layouts/head.php'; ?>
                         <?php
                         foreach ($late_datas as $late) : ?>
                             <tr>
-                                <td><?= getUserName($late->user_id) ?></td>
-                                <td><?= $late->date_created ?></td>
-                                <td><?= $late->amount ?></td>
-                                <td><a href="<?= route('/delete', $late->id) ?>" style="color: red;"><i class="far fa-trash-alt"></i></a></td>
+                                <td><?= getUserName($late['user_id']) ?></td>
+                                <td><?= $late['date_created'] ?></td>
+                                <td><?= $late['amount'] ?></td>
+                                <td><a href="<?= route('/delete', $late['id']) ?>" style="color: red;"><i class="far fa-trash-alt"></i></a></td>
                             </tr>
                         <?php endforeach ?>
 

@@ -14,14 +14,14 @@ use App\Core\Auth;
 		<?= ucfirst($pageTitle) . " | " . App::get('config')['app']['name'] ?>
 	</title>
 
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,800,800i,900,900i" rel="stylesheet">
 	<!-- Icons -->
-	<link rel="stylesheet" href="<?= public_url('/assets/vendor/nucleo/css/nucleo.css') ?>" type="text/css">
-	<link rel="stylesheet" href="<?= public_url('/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css') ?>" type="text/css">
+	<link rel="stylesheet" href="<?= public_url('/assets/argon/vendor/nucleo/css/nucleo.css') ?>" type="text/css">
+	<link rel="stylesheet" href="<?= public_url('/assets/argon/vendor/@fortawesome/fontawesome-free/css/all.min.css') ?>" type="text/css">
 
 	<!-- Argon CSS -->
-	<link rel="stylesheet" href="<?= public_url('/assets/css/argon.css?v=1.2.0') ?>" type="text/css">
-	<link rel="stylesheet" href="<?= public_url('/assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css') ?>" type="text/css">
+	<link rel="stylesheet" href="<?= public_url('/assets/argon/css/argon.css?v=1.2.0') ?>" type="text/css">
+	<link rel="stylesheet" href="<?= public_url('/assets/argon/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css') ?>" type="text/css">
 
 	<style>
 		body {
@@ -46,20 +46,25 @@ use App\Core\Auth;
 		}
 	</style>
 
+	<script src="<?= public_url('/assets/argon/vendor/jquery/dist/jquery.min.js') ?>"></script>
 	<!-- Core -->
-	<script src="<?= public_url('/assets/vendor/jquery/dist/jquery.min.js') ?>"></script>
-	<script src="<?= public_url('/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') ?>"></script>
-	<script src="<?= public_url('/assets/vendor/js-cookie/js.cookie.js') ?>"></script>
-	<script src="<?= public_url('/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js') ?>"></script>
-	<script src="<?= public_url('/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js') ?>"></script>
-	<script src="<?= public_url('/assets/vendor/datatables.net-bs4/js/jquery.dataTables.min.js') ?>"></script>
-	<script src="<?= public_url('/assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
+	<script src="<?= public_url('/assets/argon/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') ?>"></script>
+	<script src="<?= public_url('/assets/argon/vendor/js-cookie/js.cookie.js') ?>"></script>
+	<script src="<?= public_url('/assets/argon/vendor/jquery.scrollbar/jquery.scrollbar.min.js') ?>"></script>
+	<script src="<?= public_url('/assets/argon/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js') ?>"></script>
+	<script src="<?= public_url('/assets/argon/vendor/datatables.net-bs4/js/jquery.dataTables.min.js') ?>"></script>
+	<script src="<?= public_url('/assets/argon/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
 
 	<!-- Optional JS -->
-	<script src="<?= public_url('/assets/vendor/chart.js/dist/Chart.min.js') ?>"></script>
-	<script src="<?= public_url('/assets/vendor/chart.js/dist/Chart.extension.js') ?>"></script>
-	<!-- Argon JS -->
-	<script src="<?= public_url('/assets/js/argon.js?v=1.2.0') ?>"></script>
+	<script src="<?= public_url('/assets/argon/vendor/chart.js/dist/Chart.min.js') ?>"></script>
+	<script src="<?= public_url('/assets/argon/vendor/chart.js/dist/Chart.extension.js') ?>"></script>
+
+	<?php
+	// this will auto include filepond css/js when adding filepond in public/assets
+	if (file_exists('public/assets/filepond')) {
+		require_once 'public/assets/filepond/filepond.php';
+	}
+	?>
 </head>
 
 <body>

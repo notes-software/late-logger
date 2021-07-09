@@ -23,9 +23,9 @@ require __DIR__ . '/../layouts/head.php'; ?>
                         <?php
                         foreach ($late_datas as $late) : ?>
                             <tr>
-                                <td><?= getUserName($late->user_id) ?></td>
-                                <td><?= $late->date_created ?></td>
-                                <td><?= $late->amount ?></td>
+                                <td><?= getUserName($late['user_id']) ?></td>
+                                <td><?= $late['date_created'] ?></td>
+                                <td><?= $late['amount'] ?></td>
                             </tr>
                         <?php endforeach ?>
 

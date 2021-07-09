@@ -24,9 +24,9 @@ require __DIR__ . '/../layouts/head.php'; ?>
                         <?php
                         foreach ($pay_datas as $payList) : ?>
                             <tr>
-                                <td><?= getUserName($payList->user_id) ?></td>
-                                <td><?= $payList->date_created ?></td>
-                                <td><?= $payList->amount ?></td>
+                                <td><?= getUserName($payList['user_id']) ?></td>
+                                <td><?= $payList['date_created'] ?></td>
+                                <td><?= $payList['amount'] ?></td>
                             </tr>
                         <?php endforeach ?>
 
